@@ -17,10 +17,9 @@
       justify-content: center;
       background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
       color: #fff;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    /* ── Phone view ── */
     body.phone-view {
       align-items: center;
       padding: 20px;
@@ -28,9 +27,10 @@
     body.phone-view #app {
       max-width: 390px;
       min-height: min(820px, 90dvh);
+      max-height: 90dvh;
       border-radius: 40px;
       box-shadow: 0 0 0 10px #1c1c1e, 0 0 0 12px #3a3a3c, 0 28px 70px rgba(0,0,0,0.85);
-      overflow: hidden;
+      overflow-y: auto;
       background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     }
 
@@ -40,7 +40,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 20px 28px;
+      padding: 20px 20px 36px;
     }
 
     /* ── Header ── */
@@ -50,7 +50,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     h1 {
@@ -70,30 +70,41 @@
       background: none;
       border: none;
       color: rgba(255,255,255,0.55);
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       cursor: pointer;
       padding: 4px 8px;
       line-height: 1;
-      transition: color 0.15s;
+      transition: color 0.15s, transform 0.2s;
     }
     #menuBtn:hover { color: rgba(255,255,255,0.9); }
+    #menuBtn.open { transform: rotate(90deg); color: rgba(255,255,255,0.85); }
 
-    /* ── Settings panel ── */
+    /* ── Settings panel — animated open/close ── */
     #settings {
       width: 100%;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 14px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      padding: 0 18px;
+      margin-bottom: 0;
+      transition: max-height 0.32s ease, opacity 0.22s ease, margin-bottom 0.32s ease, padding 0.32s ease;
+    }
+    #settings.open {
+      max-height: 280px;
+      opacity: 1;
       padding: 14px 18px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .settings-title {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.38);
       margin-bottom: 12px;
     }
 
@@ -101,29 +112,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 5px 0;
     }
-
-    .settings-row span { font-size: 0.95rem; font-weight: 700; }
+    .settings-row + .settings-row { border-top: 1px solid rgba(255,255,255,0.06); }
+    .settings-row span { font-size: 0.92rem; font-weight: 700; }
 
     .toggle-btn {
       font-family: 'Nunito', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 900;
-      padding: 5px 16px;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background 0.2s;
+      font-size: 0.78rem; font-weight: 900;
+      padding: 5px 16px; border: none; border-radius: 999px;
+      cursor: pointer; transition: background 0.2s, color 0.2s;
+      min-width: 48px;
     }
     .toggle-btn.on  { background: #e8b800; color: #1a1a2e; }
-    .toggle-btn.off { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
+    .toggle-btn.off { background: rgba(255,255,255,0.14); color: rgba(255,255,255,0.65); }
 
     /* ── Sound badge ── */
     .sound-badge {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       min-height: 44px;
     }
 
@@ -133,9 +142,7 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 1.4rem; font-weight: 900;
       flex-shrink: 0;
-      animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
-
     .sound-label { font-size: 0.95rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
 
     .s1 .sound-num { background: #d4a017; color: #fff; box-shadow: 0 0 14px rgba(212,160,23,0.6); }
@@ -154,7 +161,7 @@
       perspective: 600px;
       width: 210px; height: 210px;
       cursor: pointer;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       flex-shrink: 0;
       overflow: visible;
     }
@@ -188,22 +195,28 @@
       box-shadow: inset 0 4px 10px rgba(255,255,200,0.6), inset 0 -5px 12px rgba(0,0,0,0.4);
     }
 
+    /* Tails — slightly darker silver so text is readable */
     .coin-back {
-      background: radial-gradient(circle at 62% 32%, #ffffff, #d0d0d0 42%, #808080 80%, #404040);
-      box-shadow: inset 0 4px 10px rgba(255,255,255,0.65), inset 0 -5px 12px rgba(0,0,0,0.35);
+      background: radial-gradient(circle at 62% 32%, #e8e8e8, #b8b8b8 45%, #707070 80%, #383838);
+      box-shadow: inset 0 4px 10px rgba(255,255,255,0.5), inset 0 -5px 12px rgba(0,0,0,0.4);
       transform: rotateY(180deg);
     }
 
-    .coin-symbol { font-size: 62px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-    .coin-word   { font-size: 1.15rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; }
-    .coin-face .coin-word { color: #4a2e00; }
-    .coin-back .coin-word { color: #1a1a1a; }
+    .coin-symbol { font-size: 60px; line-height: 1; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35)); }
+
+    .coin-word {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+    }
+    .coin-face .coin-word { color: #3d2400; text-shadow: 0 1px 2px rgba(255,220,100,0.4); }
+    .coin-back .coin-word { color: #1a1a1a; text-shadow: 0 1px 2px rgba(255,255,255,0.5); }
 
     /* ── Result ── */
-    .result { min-height: 52px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .result { min-height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
     .result-text { font-size: 2.2rem; font-weight: 900; letter-spacing: 0.04em; animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
     .result-heads { color: #e8b800; }
-    .result-tails { color: #c0c0c0; }
+    .result-tails { color: #c8c8c8; }
 
     /* ── Flip button ── */
     .flip-btn {
@@ -214,36 +227,61 @@
       color: #fff; cursor: pointer;
       box-shadow: 0 4px 16px rgba(232,184,0,0.45);
       transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s;
-      text-transform: uppercase; margin-bottom: 16px;
+      text-transform: uppercase; margin-bottom: 14px;
     }
     .flip-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(232,184,0,0.55); }
     .flip-btn:active:not(:disabled) { transform: translateY(0); }
     .flip-btn:disabled { opacity: 0.5; cursor: default; }
 
     /* ── Tally ── */
-    .tally { display: flex; gap: 24px; margin-bottom: 20px; font-size: 0.85rem; color: rgba(255,255,255,0.4); }
+    .tally { display: flex; gap: 24px; margin-bottom: 18px; font-size: 0.85rem; color: rgba(255,255,255,0.4); }
     .tally .heads-count { color: #e8b800; font-weight: 700; font-size: 1.05rem; }
-    .tally .tails-count { color: #c0c0c0; font-weight: 700; font-size: 1.05rem; }
+    .tally .tails-count { color: #c8c8c8; font-weight: 700; font-size: 1.05rem; }
 
     /* ── History ── */
-    .history { width: 100%; max-width: 340px; }
+    .history {
+      width: 100%;
+      max-width: 340px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.35s ease;
+      margin-top: 0;
+    }
+    .history.visible {
+      max-height: 300px;
+      opacity: 1;
+      margin-top: 4px;
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
     .history-title {
       font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 8px;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
     }
+    .history-clear {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.68rem; color: rgba(255,255,255,0.25);
+      font-family: 'Nunito', sans-serif; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      transition: color 0.15s; padding: 0;
+    }
+    .history-clear:hover { color: rgba(255,255,255,0.6); }
     .history-items { display: flex; flex-wrap: wrap; gap: 5px; }
     .h-item {
       font-size: 1.1rem; line-height: 1;
       padding: 4px 5px; border-radius: 6px;
       background: rgba(255,255,255,0.06);
-      animation: histIn 0.2s ease both;
     }
     .h-heads { color: #e8b800; }
-    .h-tails { color: #c0c0c0; }
+    .h-tails { color: #c8c8c8; }
 
-    @keyframes pop      { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    @keyframes badgePop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    @keyframes histIn   { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes pop  { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   </style>
 </head>
 <body>
@@ -255,15 +293,24 @@
     <button id="menuBtn" aria-label="Settings">☰</button>
   </div>
 
-  <div id="settings" hidden>
+  <!-- Settings panel (no hidden attr — animated via CSS class) -->
+  <div id="settings">
     <div class="settings-title">Settings</div>
+    <div class="settings-row">
+      <span>Sound</span>
+      <button class="toggle-btn on" id="soundToggle">On</button>
+    </div>
+    <div class="settings-row">
+      <span>Flip History</span>
+      <button class="toggle-btn on" id="historyToggle">On</button>
+    </div>
     <div class="settings-row">
       <span>Phone View</span>
       <button class="toggle-btn off" id="phoneToggle">Off</button>
     </div>
   </div>
 
-  <div id="soundBadge" hidden class="sound-badge">
+  <div id="soundBadge" style="display:none" class="sound-badge">
     <div class="sound-num" id="soundNum">1</div>
     <div class="sound-label" id="soundLabel">CLASSIC</div>
   </div>
@@ -287,59 +334,98 @@
 
   <button class="flip-btn" id="flipBtn">Flip</button>
 
-  <div class="tally" id="tally" hidden>
+  <div class="tally" id="tally" style="display:none">
     <div>❤ <span class="heads-count" id="headsCount">0</span></div>
     <div>★ <span class="tails-count" id="tailsCount">0</span></div>
   </div>
 
-  <div class="history" id="historyEl" hidden>
-    <div class="history-title">Flip History</div>
+  <div class="history" id="historyEl">
+    <div class="history-header">
+      <div class="history-title">Flip History</div>
+      <button class="history-clear" id="historyClear">Clear</button>
+    </div>
     <div class="history-items" id="historyItems"></div>
   </div>
 
 </div>
 
 <script>
-  const coinWrap    = document.getElementById('coinWrap');
-  const coinMover   = document.getElementById('coinMover');
-  const coin        = document.getElementById('coin');
-  const flipBtn     = document.getElementById('flipBtn');
-  const resultEl    = document.getElementById('result');
-  const tallyEl     = document.getElementById('tally');
-  const headsEl     = document.getElementById('headsCount');
-  const tailsEl     = document.getElementById('tailsCount');
-  const soundBadge  = document.getElementById('soundBadge');
-  const soundNumEl  = document.getElementById('soundNum');
-  const soundLblEl  = document.getElementById('soundLabel');
-  const menuBtn     = document.getElementById('menuBtn');
-  const settingsEl  = document.getElementById('settings');
-  const phoneToggle = document.getElementById('phoneToggle');
-  const historyEl   = document.getElementById('historyEl');
-  const histItems   = document.getElementById('historyItems');
+  const coinWrap     = document.getElementById('coinWrap');
+  const coinMover    = document.getElementById('coinMover');
+  const coin         = document.getElementById('coin');
+  const flipBtn      = document.getElementById('flipBtn');
+  const resultEl     = document.getElementById('result');
+  const tallyEl      = document.getElementById('tally');
+  const headsEl      = document.getElementById('headsCount');
+  const tailsEl      = document.getElementById('tailsCount');
+  const soundBadge   = document.getElementById('soundBadge');
+  const soundNumEl   = document.getElementById('soundNum');
+  const soundLblEl   = document.getElementById('soundLabel');
+  const menuBtn      = document.getElementById('menuBtn');
+  const settingsEl   = document.getElementById('settings');
+  const soundToggle  = document.getElementById('soundToggle');
+  const historyToggle= document.getElementById('historyToggle');
+  const phoneToggle  = document.getElementById('phoneToggle');
+  const historyEl    = document.getElementById('historyEl');
+  const histItems    = document.getElementById('historyItems');
+  const historyClear = document.getElementById('historyClear');
 
   let flipping = false, headsCount = 0, tailsCount = 0;
   let audioCtx = null;
-  const history = [];
+  const flipHistory = [];
 
-  // ── Settings ──
-  let phoneView = localStorage.getItem('phoneView') === 'true';
-  applyPhoneView();
+  // ── Persist settings ──
+  let soundEnabled   = localStorage.getItem('soundEnabled')   !== 'false';
+  let showHistory    = localStorage.getItem('showHistory')    !== 'false';
+  let phoneView      = localStorage.getItem('phoneView')      === 'true';
 
-  menuBtn.addEventListener('click', () => {
-    settingsEl.hidden = !settingsEl.hidden;
-  });
+  applyAll();
 
-  phoneToggle.addEventListener('click', () => {
-    phoneView = !phoneView;
-    localStorage.setItem('phoneView', phoneView);
-    applyPhoneView();
-  });
-
+  function applyAll() {
+    applySound(); applyHistory(); applyPhoneView();
+  }
+  function applySound() {
+    soundToggle.textContent = soundEnabled ? 'On' : 'Off';
+    soundToggle.className = 'toggle-btn ' + (soundEnabled ? 'on' : 'off');
+  }
+  function applyHistory() {
+    historyToggle.textContent = showHistory ? 'On' : 'Off';
+    historyToggle.className = 'toggle-btn ' + (showHistory ? 'on' : 'off');
+    if (!showHistory) historyEl.classList.remove('visible');
+    else if (flipHistory.length > 0) historyEl.classList.add('visible');
+  }
   function applyPhoneView() {
     document.body.classList.toggle('phone-view', phoneView);
     phoneToggle.textContent = phoneView ? 'On' : 'Off';
     phoneToggle.className = 'toggle-btn ' + (phoneView ? 'on' : 'off');
   }
+
+  // ── Settings open/close ──
+  menuBtn.addEventListener('click', () => {
+    const open = settingsEl.classList.toggle('open');
+    menuBtn.classList.toggle('open', open);
+  });
+
+  soundToggle.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem('soundEnabled', soundEnabled);
+    applySound();
+  });
+  historyToggle.addEventListener('click', () => {
+    showHistory = !showHistory;
+    localStorage.setItem('showHistory', showHistory);
+    applyHistory();
+  });
+  phoneToggle.addEventListener('click', () => {
+    phoneView = !phoneView;
+    localStorage.setItem('phoneView', phoneView);
+    applyPhoneView();
+  });
+  historyClear.addEventListener('click', () => {
+    flipHistory.length = 0;
+    histItems.innerHTML = '';
+    historyEl.classList.remove('visible');
+  });
 
   // ── Audio ──
   function getCtx() {
@@ -369,12 +455,10 @@
     z.type = 'triangle'; z.frequency.setValueAtTime(200, now); z.frequency.exponentialRampToValueAtTime(2200, now + 0.14);
     zg.gain.setValueAtTime(0.5, now); zg.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
     z.connect(zg); zg.connect(ctx.destination); z.start(now); z.stop(now + 0.17);
-
     const w = noise(ctx, 0.9), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
     wf.type = 'bandpass'; wf.frequency.setValueAtTime(1400, now); wf.frequency.linearRampToValueAtTime(280, now + 0.9); wf.Q.value = 2;
     wg.gain.setValueAtTime(0.06, now); wg.gain.linearRampToValueAtTime(0.45, now + 0.2); wg.gain.linearRampToValueAtTime(0, now + 0.9);
     w.connect(wf); wf.connect(wg); wg.connect(ctx.destination); w.start(now); w.stop(now + 0.92);
-
     const s = ctx.createOscillator(), sg = ctx.createGain();
     s.type = 'sawtooth'; s.frequency.setValueAtTime(300, now + 0.05); s.frequency.linearRampToValueAtTime(550, now + 0.45); s.frequency.linearRampToValueAtTime(300, now + 0.9);
     const lfo = ctx.createOscillator(), lg = ctx.createGain();
@@ -382,7 +466,6 @@
     lfo.connect(lg); lg.connect(sg.gain);
     sg.gain.setValueAtTime(0, now); sg.gain.linearRampToValueAtTime(0.2, now + 0.1); sg.gain.linearRampToValueAtTime(0.1, now + 0.8); sg.gain.linearRampToValueAtTime(0, now + 0.95);
     s.connect(sg); sg.connect(ctx.destination); lfo.start(now + 0.05); lfo.stop(now + 1.0); s.start(now + 0.05); s.stop(now + 0.98);
-
     const ca = now + 1.08;
     const cn = noise(ctx, 0.4), cf = ctx.createBiquadFilter(), cg = ctx.createGain();
     cf.type = 'bandpass'; cf.frequency.value = 4000; cf.Q.value = 10;
@@ -399,23 +482,19 @@
     b.type = 'sine'; b.frequency.setValueAtTime(120, now); b.frequency.exponentialRampToValueAtTime(30, now + 0.25);
     bg.gain.setValueAtTime(0.7, now); bg.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
     b.connect(bg); bg.connect(ctx.destination); b.start(now); b.stop(now + 0.3);
-
     const w = noise(ctx, 0.9), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
     wf.type = 'lowpass'; wf.frequency.setValueAtTime(600, now); wf.frequency.linearRampToValueAtTime(100, now + 0.9);
     wg.gain.setValueAtTime(0.1, now); wg.gain.linearRampToValueAtTime(0.6, now + 0.18); wg.gain.linearRampToValueAtTime(0, now + 0.9);
     w.connect(wf); wf.connect(wg); wg.connect(ctx.destination); w.start(now); w.stop(now + 0.92);
-
     const rr = ctx.createOscillator(), rrg = ctx.createGain();
     rr.type = 'sawtooth'; rr.frequency.setValueAtTime(55, now + 0.05); rr.frequency.linearRampToValueAtTime(80, now + 0.5); rr.frequency.linearRampToValueAtTime(40, now + 0.9);
     rrg.gain.setValueAtTime(0, now); rrg.gain.linearRampToValueAtTime(0.3, now + 0.1); rrg.gain.linearRampToValueAtTime(0, now + 0.9);
     rr.connect(rrg); rrg.connect(ctx.destination); rr.start(now + 0.05); rr.stop(now + 0.92);
-
     const ta = now + 1.08;
     const t = ctx.createOscillator(), tg = ctx.createGain();
     t.type = 'sine'; t.frequency.setValueAtTime(140, ta); t.frequency.exponentialRampToValueAtTime(25, ta + 0.25);
     tg.gain.setValueAtTime(1.2, ta); tg.gain.exponentialRampToValueAtTime(0.001, ta + 0.3);
     t.connect(tg); tg.connect(ctx.destination); t.start(ta); t.stop(ta + 0.32);
-
     const cn = noise(ctx, 0.35), cf = ctx.createBiquadFilter(), cg = ctx.createGain();
     cf.type = 'bandpass'; cf.frequency.value = 1800; cf.Q.value = 4;
     cg.gain.setValueAtTime(0.8, ta); cg.gain.exponentialRampToValueAtTime(0.001, ta + 0.3);
@@ -427,17 +506,14 @@
     wcf.type = 'highpass'; wcf.frequency.value = 3000;
     wcg.gain.setValueAtTime(1.4, now); wcg.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
     wc.connect(wcf); wcf.connect(wcg); wcg.connect(ctx.destination); wc.start(now); wc.stop(now + 0.07);
-
     const sw = ctx.createOscillator(), swg = ctx.createGain();
     sw.type = 'sawtooth'; sw.frequency.setValueAtTime(400, now); sw.frequency.exponentialRampToValueAtTime(4000, now + 0.08);
     swg.gain.setValueAtTime(0.35, now); swg.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
     sw.connect(swg); swg.connect(ctx.destination); sw.start(now); sw.stop(now + 0.11);
-
     const h = noise(ctx, 0.88), hf = ctx.createBiquadFilter(), hg = ctx.createGain();
     hf.type = 'bandpass'; hf.frequency.setValueAtTime(5000, now + 0.05); hf.frequency.linearRampToValueAtTime(2500, now + 0.9); hf.Q.value = 1.5;
     hg.gain.setValueAtTime(0.04, now + 0.05); hg.gain.linearRampToValueAtTime(0.4, now + 0.15); hg.gain.linearRampToValueAtTime(0, now + 0.9);
     h.connect(hf); hf.connect(hg); hg.connect(ctx.destination); h.start(now + 0.05); h.stop(now + 0.92);
-
     const sp = ctx.createOscillator(), spg = ctx.createGain();
     sp.type = 'sine'; sp.frequency.setValueAtTime(3000, now + 0.05); sp.frequency.linearRampToValueAtTime(1800, now + 0.9);
     const lfo = ctx.createOscillator(), lg = ctx.createGain();
@@ -445,7 +521,6 @@
     lfo.connect(lg); lg.connect(spg.gain);
     spg.gain.setValueAtTime(0, now); spg.gain.linearRampToValueAtTime(0.12, now + 0.08); spg.gain.linearRampToValueAtTime(0, now + 0.9);
     sp.connect(spg); spg.connect(ctx.destination); lfo.start(now + 0.05); lfo.stop(now + 0.95); sp.start(now + 0.05); sp.stop(now + 0.92);
-
     const ta = now + 1.08;
     const tn = noise(ctx, 0.12), tf = ctx.createBiquadFilter(), tg = ctx.createGain();
     tf.type = 'bandpass'; tf.frequency.value = 6000; tf.Q.value = 15;
@@ -453,11 +528,26 @@
     tn.connect(tf); tf.connect(tg); tg.connect(ctx.destination); tn.start(ta); tn.stop(ta + 0.13);
   }
 
+  // ── Sound 4: WIND — DEEP version with sub-bass and low rumble ──
   function playSound4(ctx, now) {
+    // Sub-bass sine — deep cinematic whoosh foundation
+    const sub = ctx.createOscillator(), subg = ctx.createGain();
+    sub.type = 'sine';
+    sub.frequency.setValueAtTime(95, now); sub.frequency.linearRampToValueAtTime(32, now + 0.9);
+    subg.gain.setValueAtTime(0, now); subg.gain.linearRampToValueAtTime(0.55, now + 0.18); subg.gain.linearRampToValueAtTime(0, now + 0.9);
+    sub.connect(subg); subg.connect(ctx.destination); sub.start(now); sub.stop(now + 0.92);
+
+    // Low sawtooth rumble (adds body to the whoosh)
+    const rum = ctx.createOscillator(), rumg = ctx.createGain();
+    rum.type = 'sawtooth'; rum.frequency.setValueAtTime(48, now + 0.05); rum.frequency.linearRampToValueAtTime(22, now + 0.85);
+    rumg.gain.setValueAtTime(0, now); rumg.gain.linearRampToValueAtTime(0.2, now + 0.15); rumg.gain.linearRampToValueAtTime(0, now + 0.88);
+    rum.connect(rumg); rumg.connect(ctx.destination); rum.start(now + 0.05); rum.stop(now + 0.9);
+
+    // Three deep noise layers
     [
-      { f0: 800,  f1: 150, Q: 1.8, g0: 0.55, peak: 0.25 },
-      { f0: 2000, f1: 500, Q: 2.5, g0: 0.3,  peak: 0.18 },
-      { f0: 300,  f1: 80,  Q: 1.2, g0: 0.4,  peak: 0.3  },
+      { f0: 320,  f1: 55,  Q: 1.6, g0: 0.55, peak: 0.2  },
+      { f0: 110,  f1: 28,  Q: 1.3, g0: 0.45, peak: 0.28 },
+      { f0: 650,  f1: 160, Q: 2.2, g0: 0.2,  peak: 0.14 },
     ].forEach(p => {
       const wn = noise(ctx, 0.95), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
       wf.type = 'bandpass'; wf.frequency.setValueAtTime(p.f0, now); wf.frequency.linearRampToValueAtTime(p.f1, now + 0.95); wf.Q.value = p.Q;
@@ -465,16 +555,18 @@
       wn.connect(wf); wf.connect(wg); wg.connect(ctx.destination); wn.start(now); wn.stop(now + 0.97);
     });
 
+    // Deep thud landing
     const ta = now + 1.08;
-    const wn = noise(ctx, 0.3), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
-    wf.type = 'lowpass'; wf.frequency.setValueAtTime(300, ta); wf.frequency.exponentialRampToValueAtTime(60, ta + 0.25);
-    wg.gain.setValueAtTime(0.7, ta); wg.gain.exponentialRampToValueAtTime(0.001, ta + 0.28);
-    wn.connect(wf); wf.connect(wg); wg.connect(ctx.destination); wn.start(ta); wn.stop(ta + 0.32);
+    const t = ctx.createOscillator(), tg = ctx.createGain();
+    t.type = 'sine'; t.frequency.setValueAtTime(85, ta); t.frequency.exponentialRampToValueAtTime(18, ta + 0.5);
+    tg.gain.setValueAtTime(1.3, ta); tg.gain.exponentialRampToValueAtTime(0.001, ta + 0.5);
+    t.connect(tg); tg.connect(ctx.destination); t.start(ta); t.stop(ta + 0.55);
 
-    const r = ctx.createOscillator(), rg = ctx.createGain();
-    r.type = 'sine'; r.frequency.value = 320;
-    rg.gain.setValueAtTime(0.06, ta); rg.gain.exponentialRampToValueAtTime(0.001, ta + 0.4);
-    r.connect(rg); rg.connect(ctx.destination); r.start(ta); r.stop(ta + 0.42);
+    // Low noise whomp
+    const wn = noise(ctx, 0.4), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
+    wf.type = 'lowpass'; wf.frequency.setValueAtTime(140, ta); wf.frequency.exponentialRampToValueAtTime(28, ta + 0.38);
+    wg.gain.setValueAtTime(0.9, ta); wg.gain.exponentialRampToValueAtTime(0.001, ta + 0.42);
+    wn.connect(wf); wf.connect(wg); wg.connect(ctx.destination); wn.start(ta); wn.stop(ta + 0.45);
   }
 
   function playSound5(ctx, now) {
@@ -487,7 +579,6 @@
     carG.gain.setValueAtTime(0.5, now); carG.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
     car.connect(carG); carG.connect(ctx.destination);
     mod.start(now); mod.stop(now + 0.18); car.start(now); car.stop(now + 0.18);
-
     const b = ctx.createOscillator(), bg = ctx.createGain();
     b.type = 'square'; b.frequency.setValueAtTime(220, now + 0.1); b.frequency.linearRampToValueAtTime(440, now + 0.5); b.frequency.linearRampToValueAtTime(180, now + 0.9);
     const lfo = ctx.createOscillator(), lg = ctx.createGain();
@@ -495,18 +586,15 @@
     lfo.connect(lg); lg.connect(bg.gain);
     bg.gain.setValueAtTime(0, now + 0.1); bg.gain.linearRampToValueAtTime(0.14, now + 0.18); bg.gain.linearRampToValueAtTime(0, now + 0.9);
     b.connect(bg); bg.connect(ctx.destination); lfo.start(now + 0.1); lfo.stop(now + 0.92); b.start(now + 0.1); b.stop(now + 0.92);
-
     const en = noise(ctx, 0.8), ef = ctx.createBiquadFilter(), eg = ctx.createGain();
     ef.type = 'bandpass'; ef.frequency.setValueAtTime(2000, now + 0.05); ef.frequency.linearRampToValueAtTime(4500, now + 0.4); ef.frequency.linearRampToValueAtTime(800, now + 0.85); ef.Q.value = 5;
     eg.gain.setValueAtTime(0.03, now + 0.05); eg.gain.linearRampToValueAtTime(0.3, now + 0.2); eg.gain.linearRampToValueAtTime(0, now + 0.85);
     en.connect(ef); ef.connect(eg); eg.connect(ctx.destination); en.start(now + 0.05); en.stop(now + 0.87);
-
     const ta = now + 1.08;
     const zap = ctx.createOscillator(), zapg = ctx.createGain();
     zap.type = 'square'; zap.frequency.setValueAtTime(600, ta); zap.frequency.exponentialRampToValueAtTime(60, ta + 0.08);
     zapg.gain.setValueAtTime(0.8, ta); zapg.gain.exponentialRampToValueAtTime(0.001, ta + 0.1);
     zap.connect(zapg); zapg.connect(ctx.destination); zap.start(ta); zap.stop(ta + 0.12);
-
     const blip = ctx.createOscillator(), blipg = ctx.createGain();
     blip.frequency.value = 3200; blip.type = 'sine';
     blipg.gain.setValueAtTime(0.18, ta); blipg.gain.exponentialRampToValueAtTime(0.001, ta + 0.18);
@@ -516,12 +604,12 @@
   const soundFns = [playSound1, playSound2, playSound3, playSound4, playSound5];
 
   function addToHistory(isHeads) {
-    history.unshift(isHeads);
-    if (history.length > 30) history.pop();
-    histItems.innerHTML = history.map(h =>
+    flipHistory.unshift(isHeads);
+    if (flipHistory.length > 30) flipHistory.pop();
+    histItems.innerHTML = flipHistory.map(h =>
       `<span class="h-item ${h ? 'h-heads' : 'h-tails'}">${h ? '❤' : '★'}</span>`
     ).join('');
-    historyEl.hidden = false;
+    if (showHistory) historyEl.classList.add('visible');
   }
 
   function flip() {
@@ -533,17 +621,19 @@
     const isHeads = Math.random() < 0.5;
     const si = Math.floor(Math.random() * 5);
 
-    try { soundFns[si](getCtx(), getCtx().currentTime); } catch(e) {}
+    if (soundEnabled) {
+      try {
+        const ctx = getCtx();
+        soundFns[si](ctx, ctx.currentTime);
+      } catch(e) {}
+    }
 
     // Show sound badge
     const sd = SOUNDS[si];
     soundNumEl.textContent = si + 1;
     soundLblEl.textContent = sd.label;
     soundBadge.className = 'sound-badge ' + sd.cls;
-    soundBadge.hidden = false;
-    soundBadge.style.animation = 'none';
-    void soundBadge.offsetHeight;
-    soundBadge.style.animation = '';
+    soundBadge.style.display = 'flex';
 
     // Phase 1: small → fly up
     coinMover.style.transition = 'none';
@@ -558,7 +648,6 @@
     coin.style.transition = `transform ${P1}ms linear`;
     coin.style.transform = `rotateY(${SPIN1}deg)`;
 
-    // Phase 2: land
     setTimeout(() => {
       const P2 = 520;
       const finalDeg = SPIN1 + 1080 + (isHeads ? 0 : 180);
@@ -574,7 +663,7 @@
         if (isHeads) headsCount++; else tailsCount++;
         headsEl.textContent = headsCount;
         tailsEl.textContent = tailsCount;
-        tallyEl.hidden = false;
+        tallyEl.style.display = 'flex';
 
         addToHistory(isHeads);
 
