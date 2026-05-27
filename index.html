@@ -37,24 +37,67 @@
     .subtitle {
       font-size: 0.9rem;
       color: rgba(255,255,255,0.4);
-      margin-bottom: 48px;
+      margin-bottom: 28px;
       text-align: center;
       letter-spacing: 0.06em;
     }
 
+    /* ── Sound badge ── */
+    .sound-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      min-height: 48px;
+      animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .sound-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .sound-label {
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Sound colors */
+    .s1 .sound-num { background: #d4a017; color: #fff; box-shadow: 0 0 14px rgba(212,160,23,0.6); }
+    .s1 .sound-label { color: #d4a017; }
+
+    .s2 .sound-num { background: #8b0000; color: #fff; box-shadow: 0 0 14px rgba(139,0,0,0.7); }
+    .s2 .sound-label { color: #ff4444; }
+
+    .s3 .sound-num { background: #00897b; color: #fff; box-shadow: 0 0 14px rgba(0,137,123,0.6); }
+    .s3 .sound-label { color: #00bfa5; }
+
+    .s4 .sound-num { background: #1565c0; color: #fff; box-shadow: 0 0 14px rgba(21,101,192,0.6); }
+    .s4 .sound-label { color: #64b5f6; }
+
+    .s5 .sound-num { background: #6a1b9a; color: #fff; box-shadow: 0 0 14px rgba(106,27,154,0.7); }
+    .s5 .sound-label { color: #ce93d8; }
+
     /* ── Coin ── */
     .coin-wrap {
-      /* perspective container — overflow visible so coin can fly off screen */
       perspective: 600px;
       width: 220px;
       height: 220px;
       cursor: pointer;
-      margin-bottom: 36px;
+      margin-bottom: 28px;
       flex-shrink: 0;
       overflow: visible;
     }
 
-    /* mover: handles translateY + scale */
     #coinMover {
       width: 100%;
       height: 100%;
@@ -62,7 +105,6 @@
       transform: translateY(0) scale(0.32);
     }
 
-    /* coin: handles rotateY only */
     .coin {
       width: 100%;
       height: 100%;
@@ -95,89 +137,53 @@
       transform: rotateY(180deg);
     }
 
-    .coin-symbol {
-      font-size: 88px;
-      line-height: 1;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    }
-
-    .coin-label {
-      font-size: 0.62rem;
-      font-weight: 900;
-      letter-spacing: 0.22em;
-      margin-top: 6px;
-      text-transform: uppercase;
-    }
-
+    .coin-symbol { font-size: 88px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    .coin-label  { font-size: 0.62rem; font-weight: 900; letter-spacing: 0.22em; margin-top: 6px; text-transform: uppercase; }
     .coin-face .coin-label { color: #5a3800; }
     .coin-back .coin-label { color: #2a2a2a; }
 
     /* ── Result ── */
-    .result {
-      min-height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 28px;
-    }
-
+    .result { min-height: 56px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
     .result-text {
-      font-size: 2.4rem;
-      font-weight: 900;
-      letter-spacing: 0.04em;
+      font-size: 2.4rem; font-weight: 900; letter-spacing: 0.04em;
       animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
-
     .result-heads { color: #e8b800; }
     .result-tails { color: #b8b8b8; }
 
     /* ── Button ── */
     .flip-btn {
       font-family: 'Nunito', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 900;
-      letter-spacing: 0.06em;
-      padding: 14px 48px;
-      border: none;
-      border-radius: 999px;
+      font-size: 1.1rem; font-weight: 900; letter-spacing: 0.06em;
+      padding: 14px 48px; border: none; border-radius: 999px;
       background: linear-gradient(135deg, #e8b800, #a07000);
-      color: #fff;
-      cursor: pointer;
+      color: #fff; cursor: pointer;
       box-shadow: 0 4px 18px rgba(232,184,0,0.45);
       transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s;
       text-transform: uppercase;
     }
-
-    .flip-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(232,184,0,0.55);
-    }
-
+    .flip-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(232,184,0,0.55); }
     .flip-btn:active:not(:disabled) { transform: translateY(0); }
     .flip-btn:disabled { opacity: 0.5; cursor: default; }
 
     /* ── Tally ── */
-    .tally {
-      display: flex;
-      gap: 28px;
-      margin-top: 36px;
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.4);
-    }
-
+    .tally { display: flex; gap: 28px; margin-top: 28px; font-size: 0.85rem; color: rgba(255,255,255,0.4); }
     .tally .heads-count { color: #e8b800; font-weight: 700; font-size: 1.1rem; }
     .tally .tails-count { color: #b8b8b8; font-weight: 700; font-size: 1.1rem; }
 
-    @keyframes pop {
-      from { transform: scale(0.4); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
-    }
+    @keyframes pop      { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes badgePop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   </style>
 </head>
 <body>
 
   <h1>Allie Coin Flip</h1>
   <div class="subtitle">tap the coin — or the button</div>
+
+  <div id="soundBadge" style="display:none" class="sound-badge">
+    <div class="sound-num" id="soundNum">1</div>
+    <div class="sound-label" id="soundLabel">CLASSIC</div>
+  </div>
 
   <div class="coin-wrap" id="coinWrap">
     <div id="coinMover">
@@ -204,17 +210,19 @@
   </div>
 
   <script>
-    const coinWrap  = document.getElementById('coinWrap');
-    const coinMover = document.getElementById('coinMover');
-    const coin      = document.getElementById('coin');
-    const flipBtn   = document.getElementById('flipBtn');
-    const resultEl  = document.getElementById('result');
-    const tally     = document.getElementById('tally');
-    const headsEl   = document.getElementById('headsCount');
-    const tailsEl   = document.getElementById('tailsCount');
+    const coinWrap   = document.getElementById('coinWrap');
+    const coinMover  = document.getElementById('coinMover');
+    const coin       = document.getElementById('coin');
+    const flipBtn    = document.getElementById('flipBtn');
+    const resultEl   = document.getElementById('result');
+    const tally      = document.getElementById('tally');
+    const headsEl    = document.getElementById('headsCount');
+    const tailsEl    = document.getElementById('tailsCount');
+    const soundBadge = document.getElementById('soundBadge');
+    const soundNum   = document.getElementById('soundNum');
+    const soundLabel = document.getElementById('soundLabel');
 
-    let flipping = false;
-    let headsCount = 0, tailsCount = 0;
+    let flipping = false, headsCount = 0, tailsCount = 0;
     let audioCtx = null;
 
     function getCtx() {
@@ -222,106 +230,199 @@
       return audioCtx;
     }
 
-    function playCoinSound() {
-      try {
-        const ctx = getCtx();
-        const now = ctx.currentTime;
-
-        // ── Launch zing (sharp attack upward sweep) ──
-        const zing = ctx.createOscillator();
-        const zingGain = ctx.createGain();
-        zing.type = 'triangle';
-        zing.frequency.setValueAtTime(180, now);
-        zing.frequency.exponentialRampToValueAtTime(1800, now + 0.12);
-        zingGain.gain.setValueAtTime(0.4, now);
-        zingGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-        zing.connect(zingGain);
-        zingGain.connect(ctx.destination);
-        zing.start(now);
-        zing.stop(now + 0.15);
-
-        // ── Air whoosh (noise through sweeping bandpass) ──
-        const whooshDur = 0.85;
-        const wBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * whooshDur), ctx.sampleRate);
-        const wd = wBuf.getChannelData(0);
-        for (let i = 0; i < wd.length; i++) wd[i] = Math.random() * 2 - 1;
-        const whoosh = ctx.createBufferSource();
-        whoosh.buffer = wBuf;
-        const wbpf = ctx.createBiquadFilter();
-        wbpf.type = 'bandpass';
-        wbpf.frequency.setValueAtTime(1200, now);
-        wbpf.frequency.linearRampToValueAtTime(300, now + whooshDur);
-        wbpf.Q.value = 2.5;
-        const wGain = ctx.createGain();
-        wGain.gain.setValueAtTime(0.05, now);
-        wGain.gain.linearRampToValueAtTime(0.35, now + 0.25);
-        wGain.gain.linearRampToValueAtTime(0, now + whooshDur);
-        whoosh.connect(wbpf);
-        wbpf.connect(wGain);
-        wGain.connect(ctx.destination);
-        whoosh.start(now);
-        whoosh.stop(now + whooshDur);
-
-        // ── Metallic spin (sawtooth + tremolo for flipping wobble) ──
-        const spinOsc = ctx.createOscillator();
-        const spinGain = ctx.createGain();
-        spinOsc.type = 'sawtooth';
-        spinOsc.frequency.setValueAtTime(280, now + 0.05);
-        spinOsc.frequency.linearRampToValueAtTime(520, now + 0.45);
-        spinOsc.frequency.linearRampToValueAtTime(280, now + 0.9);
-        // Tremolo — makes the "rrrr" spin sound
-        const lfo = ctx.createOscillator();
-        const lfoGain = ctx.createGain();
-        lfo.frequency.setValueAtTime(28, now);   // fast spin
-        lfo.frequency.linearRampToValueAtTime(6, now + 0.9); // slows as it falls
-        lfoGain.gain.value = 0.6;
-        lfo.connect(lfoGain);
-        lfoGain.connect(spinGain.gain);
-        lfo.start(now + 0.05);
-        lfo.stop(now + 1.1);
-        spinGain.gain.setValueAtTime(0, now);
-        spinGain.gain.linearRampToValueAtTime(0.18, now + 0.12);
-        spinGain.gain.linearRampToValueAtTime(0.1, now + 0.8);
-        spinGain.gain.linearRampToValueAtTime(0, now + 0.95);
-        spinOsc.connect(spinGain);
-        spinGain.connect(ctx.destination);
-        spinOsc.start(now + 0.05);
-        spinOsc.stop(now + 1.0);
-
-        // ── Heavy metallic CLANK on landing ──
-        const clankAt = now + 1.08;
-        const cBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.5), ctx.sampleRate);
-        const cd = cBuf.getChannelData(0);
-        for (let i = 0; i < cd.length; i++) cd[i] = Math.random() * 2 - 1;
-        const clank = ctx.createBufferSource();
-        clank.buffer = cBuf;
-        const cbpf = ctx.createBiquadFilter();
-        cbpf.type = 'bandpass';
-        cbpf.frequency.value = 3800;
-        cbpf.Q.value = 10;
-        const cGain = ctx.createGain();
-        cGain.gain.setValueAtTime(1.0, clankAt);
-        cGain.gain.exponentialRampToValueAtTime(0.001, clankAt + 0.32);
-        clank.connect(cbpf);
-        cbpf.connect(cGain);
-        cGain.connect(ctx.destination);
-        clank.start(clankAt);
-        clank.stop(clankAt + 0.5);
-
-        // ── Ring resonance after clank ──
-        const ring = ctx.createOscillator();
-        const rGain = ctx.createGain();
-        ring.frequency.value = 2600;
-        ring.type = 'sine';
-        rGain.gain.setValueAtTime(0.12, clankAt);
-        rGain.gain.exponentialRampToValueAtTime(0.001, clankAt + 0.55);
-        ring.connect(rGain);
-        rGain.connect(ctx.destination);
-        ring.start(clankAt);
-        ring.stop(clankAt + 0.6);
-
-      } catch (e) {}
+    function noise(ctx, dur) {
+      const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      return src;
     }
+
+    const SOUNDS = [
+      { label: 'CLASSIC',  cls: 's1' },
+      { label: 'POWER',    cls: 's2' },
+      { label: 'WHIP',     cls: 's3' },
+      { label: 'WIND',     cls: 's4' },
+      { label: 'ELECTRIC', cls: 's5' },
+    ];
+
+    // ── Sound 1: CLASSIC — metallic spin, sawtooth tremolo, crisp clink ──
+    function playSound1(ctx, now) {
+      // Launch zing
+      const z = ctx.createOscillator(), zg = ctx.createGain();
+      z.type = 'triangle';
+      z.frequency.setValueAtTime(200, now);
+      z.frequency.exponentialRampToValueAtTime(2200, now + 0.14);
+      zg.gain.setValueAtTime(0.5, now); zg.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      z.connect(zg); zg.connect(ctx.destination); z.start(now); z.stop(now + 0.17);
+
+      // Whoosh
+      const w = noise(ctx, 0.9), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
+      wf.type = 'bandpass'; wf.frequency.setValueAtTime(1400, now); wf.frequency.linearRampToValueAtTime(280, now + 0.9); wf.Q.value = 2;
+      wg.gain.setValueAtTime(0.06, now); wg.gain.linearRampToValueAtTime(0.45, now + 0.2); wg.gain.linearRampToValueAtTime(0, now + 0.9);
+      w.connect(wf); wf.connect(wg); wg.connect(ctx.destination); w.start(now); w.stop(now + 0.92);
+
+      // Metallic spin + tremolo
+      const s = ctx.createOscillator(), sg = ctx.createGain();
+      s.type = 'sawtooth'; s.frequency.setValueAtTime(300, now + 0.05); s.frequency.linearRampToValueAtTime(550, now + 0.45); s.frequency.linearRampToValueAtTime(300, now + 0.9);
+      const lfo = ctx.createOscillator(), lg = ctx.createGain();
+      lfo.frequency.setValueAtTime(32, now); lfo.frequency.linearRampToValueAtTime(5, now + 0.9); lg.gain.value = 0.65;
+      lfo.connect(lg); lg.connect(sg.gain);
+      sg.gain.setValueAtTime(0, now); sg.gain.linearRampToValueAtTime(0.2, now + 0.1); sg.gain.linearRampToValueAtTime(0.1, now + 0.8); sg.gain.linearRampToValueAtTime(0, now + 0.95);
+      s.connect(sg); sg.connect(ctx.destination); lfo.start(now + 0.05); lfo.stop(now + 1.0); s.start(now + 0.05); s.stop(now + 0.98);
+
+      // Clink + ring
+      const ca = now + 1.08;
+      const cn = noise(ctx, 0.4), cf = ctx.createBiquadFilter(), cg = ctx.createGain();
+      cf.type = 'bandpass'; cf.frequency.value = 4000; cf.Q.value = 10;
+      cg.gain.setValueAtTime(1.1, ca); cg.gain.exponentialRampToValueAtTime(0.001, ca + 0.3);
+      cn.connect(cf); cf.connect(cg); cg.connect(ctx.destination); cn.start(ca); cn.stop(ca + 0.42);
+      const r = ctx.createOscillator(), rg = ctx.createGain();
+      r.frequency.value = 2800; r.type = 'sine';
+      rg.gain.setValueAtTime(0.14, ca); rg.gain.exponentialRampToValueAtTime(0.001, ca + 0.6);
+      r.connect(rg); rg.connect(ctx.destination); r.start(ca); r.stop(ca + 0.65);
+    }
+
+    // ── Sound 2: POWER — deep bass rumble, heavy impact thud ──
+    function playSound2(ctx, now) {
+      // Deep bass launch
+      const b = ctx.createOscillator(), bg = ctx.createGain();
+      b.type = 'sine'; b.frequency.setValueAtTime(120, now); b.frequency.exponentialRampToValueAtTime(30, now + 0.25);
+      bg.gain.setValueAtTime(0.7, now); bg.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+      b.connect(bg); bg.connect(ctx.destination); b.start(now); b.stop(now + 0.3);
+
+      // Heavy low-pass whoosh
+      const w = noise(ctx, 0.9), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
+      wf.type = 'lowpass'; wf.frequency.setValueAtTime(600, now); wf.frequency.linearRampToValueAtTime(100, now + 0.9);
+      wg.gain.setValueAtTime(0.1, now); wg.gain.linearRampToValueAtTime(0.6, now + 0.18); wg.gain.linearRampToValueAtTime(0, now + 0.9);
+      w.connect(wf); wf.connect(wg); wg.connect(ctx.destination); w.start(now); w.stop(now + 0.92);
+
+      // Sub rumble during flight
+      const r = ctx.createOscillator(), rg = ctx.createGain();
+      r.type = 'sawtooth'; r.frequency.setValueAtTime(55, now + 0.05); r.frequency.linearRampToValueAtTime(80, now + 0.5); r.frequency.linearRampToValueAtTime(40, now + 0.9);
+      rg.gain.setValueAtTime(0, now); rg.gain.linearRampToValueAtTime(0.3, now + 0.1); rg.gain.linearRampToValueAtTime(0, now + 0.9);
+      r.connect(rg); rg.connect(ctx.destination); r.start(now + 0.05); r.stop(now + 0.92);
+
+      // THUD landing
+      const ta = now + 1.08;
+      const t = ctx.createOscillator(), tg = ctx.createGain();
+      t.type = 'sine'; t.frequency.setValueAtTime(140, ta); t.frequency.exponentialRampToValueAtTime(25, ta + 0.25);
+      tg.gain.setValueAtTime(1.2, ta); tg.gain.exponentialRampToValueAtTime(0.001, ta + 0.3);
+      t.connect(tg); tg.connect(ctx.destination); t.start(ta); t.stop(ta + 0.32);
+
+      const cn = noise(ctx, 0.35), cf = ctx.createBiquadFilter(), cg = ctx.createGain();
+      cf.type = 'bandpass'; cf.frequency.value = 1800; cf.Q.value = 4;
+      cg.gain.setValueAtTime(0.8, ta); cg.gain.exponentialRampToValueAtTime(0.001, ta + 0.3);
+      cn.connect(cf); cf.connect(cg); cg.connect(ctx.destination); cn.start(ta); cn.stop(ta + 0.37);
+    }
+
+    // ── Sound 3: WHIP — sharp crack, high-freq hiss, fast snap landing ──
+    function playSound3(ctx, now) {
+      // Whip crack launch
+      const wc = noise(ctx, 0.06), wcf = ctx.createBiquadFilter(), wcg = ctx.createGain();
+      wcf.type = 'highpass'; wcf.frequency.value = 3000;
+      wcg.gain.setValueAtTime(1.4, now); wcg.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+      wc.connect(wcf); wcf.connect(wcg); wcg.connect(ctx.destination); wc.start(now); wc.stop(now + 0.07);
+
+      // Sharp sweep
+      const sw = ctx.createOscillator(), swg = ctx.createGain();
+      sw.type = 'sawtooth'; sw.frequency.setValueAtTime(400, now); sw.frequency.exponentialRampToValueAtTime(4000, now + 0.08);
+      swg.gain.setValueAtTime(0.35, now); swg.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      sw.connect(swg); swg.connect(ctx.destination); sw.start(now); sw.stop(now + 0.11);
+
+      // High-freq hiss during flight
+      const h = noise(ctx, 0.88), hf = ctx.createBiquadFilter(), hg = ctx.createGain();
+      hf.type = 'bandpass'; hf.frequency.setValueAtTime(5000, now + 0.05); hf.frequency.linearRampToValueAtTime(2500, now + 0.9); hf.Q.value = 1.5;
+      hg.gain.setValueAtTime(0.04, now + 0.05); hg.gain.linearRampToValueAtTime(0.4, now + 0.15); hg.gain.linearRampToValueAtTime(0, now + 0.9);
+      h.connect(hf); hf.connect(hg); hg.connect(ctx.destination); h.start(now + 0.05); h.stop(now + 0.92);
+
+      // Whistling spin (high tremolo)
+      const sp = ctx.createOscillator(), spg = ctx.createGain();
+      sp.type = 'sine'; sp.frequency.setValueAtTime(3000, now + 0.05); sp.frequency.linearRampToValueAtTime(1800, now + 0.9);
+      const lfo = ctx.createOscillator(), lg = ctx.createGain();
+      lfo.frequency.setValueAtTime(55, now); lfo.frequency.linearRampToValueAtTime(8, now + 0.9); lg.gain.value = 0.8;
+      lfo.connect(lg); lg.connect(spg.gain);
+      spg.gain.setValueAtTime(0, now); spg.gain.linearRampToValueAtTime(0.12, now + 0.08); spg.gain.linearRampToValueAtTime(0, now + 0.9);
+      sp.connect(spg); spg.connect(ctx.destination); lfo.start(now + 0.05); lfo.stop(now + 0.95); sp.start(now + 0.05); sp.stop(now + 0.92);
+
+      // Sharp TAP landing
+      const ta = now + 1.08;
+      const tn = noise(ctx, 0.12), tf = ctx.createBiquadFilter(), tg = ctx.createGain();
+      tf.type = 'bandpass'; tf.frequency.value = 6000; tf.Q.value = 15;
+      tg.gain.setValueAtTime(1.0, ta); tg.gain.exponentialRampToValueAtTime(0.001, ta + 0.1);
+      tn.connect(tf); tf.connect(tg); tg.connect(ctx.destination); tn.start(ta); tn.stop(ta + 0.13);
+    }
+
+    // ── Sound 4: WIND — pure rushing air, Doppler sweep, soft whomp ──
+    function playSound4(ctx, now) {
+      // Layered wind: 3 bandpass filters on noise for richness
+      [
+        { freq0: 800,  freq1: 150, Q: 1.8, g0: 0.55, peak: 0.25 },
+        { freq0: 2000, freq1: 500, Q: 2.5, g0: 0.3,  peak: 0.18 },
+        { freq0: 300,  freq1: 80,  Q: 1.2, g0: 0.4,  peak: 0.3  },
+      ].forEach(p => {
+        const wn = noise(ctx, 0.95), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
+        wf.type = 'bandpass'; wf.frequency.setValueAtTime(p.freq0, now); wf.frequency.linearRampToValueAtTime(p.freq1, now + 0.95); wf.Q.value = p.Q;
+        wg.gain.setValueAtTime(0.02, now); wg.gain.linearRampToValueAtTime(p.g0, now + p.peak); wg.gain.linearRampToValueAtTime(0, now + 0.95);
+        wn.connect(wf); wf.connect(wg); wg.connect(ctx.destination); wn.start(now); wn.stop(now + 0.97);
+      });
+
+      // Soft whomp landing
+      const ta = now + 1.08;
+      const wn = noise(ctx, 0.3), wf = ctx.createBiquadFilter(), wg = ctx.createGain();
+      wf.type = 'lowpass'; wf.frequency.setValueAtTime(300, ta); wf.frequency.exponentialRampToValueAtTime(60, ta + 0.25);
+      wg.gain.setValueAtTime(0.7, ta); wg.gain.exponentialRampToValueAtTime(0.001, ta + 0.28);
+      wn.connect(wf); wf.connect(wg); wg.connect(ctx.destination); wn.start(ta); wn.stop(ta + 0.32);
+
+      const r = ctx.createOscillator(), rg = ctx.createGain();
+      r.type = 'sine'; r.frequency.value = 320;
+      rg.gain.setValueAtTime(0.06, ta); rg.gain.exponentialRampToValueAtTime(0.001, ta + 0.4);
+      r.connect(rg); rg.connect(ctx.destination); r.start(ta); r.stop(ta + 0.42);
+    }
+
+    // ── Sound 5: ELECTRIC — FM laser, digital buzz, synthetic clunk ──
+    function playSound5(ctx, now) {
+      // FM laser launch
+      const mod = ctx.createOscillator(), modG = ctx.createGain();
+      const car = ctx.createOscillator(), carG = ctx.createGain();
+      mod.frequency.setValueAtTime(880, now); mod.frequency.exponentialRampToValueAtTime(60, now + 0.15);
+      modG.gain.setValueAtTime(800, now); modG.gain.exponentialRampToValueAtTime(10, now + 0.15);
+      mod.connect(modG); modG.connect(car.frequency);
+      car.type = 'sine'; car.frequency.setValueAtTime(440, now);
+      carG.gain.setValueAtTime(0.5, now); carG.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+      car.connect(carG); carG.connect(ctx.destination);
+      mod.start(now); mod.stop(now + 0.18); car.start(now); car.stop(now + 0.18);
+
+      // Digital buzz spin
+      const b = ctx.createOscillator(), bg = ctx.createGain();
+      b.type = 'square'; b.frequency.setValueAtTime(220, now + 0.1); b.frequency.linearRampToValueAtTime(440, now + 0.5); b.frequency.linearRampToValueAtTime(180, now + 0.9);
+      const lfo = ctx.createOscillator(), lg = ctx.createGain();
+      lfo.frequency.setValueAtTime(40, now); lfo.frequency.linearRampToValueAtTime(6, now + 0.9); lg.gain.value = 0.7;
+      lfo.connect(lg); lg.connect(bg.gain);
+      bg.gain.setValueAtTime(0, now + 0.1); bg.gain.linearRampToValueAtTime(0.14, now + 0.18); bg.gain.linearRampToValueAtTime(0, now + 0.9);
+      b.connect(bg); bg.connect(ctx.destination); lfo.start(now + 0.1); lfo.stop(now + 0.92); b.start(now + 0.1); b.stop(now + 0.92);
+
+      // Electronic sweep noise
+      const en = noise(ctx, 0.8), ef = ctx.createBiquadFilter(), eg = ctx.createGain();
+      ef.type = 'bandpass'; ef.frequency.setValueAtTime(2000, now + 0.05); ef.frequency.linearRampToValueAtTime(4500, now + 0.4); ef.frequency.linearRampToValueAtTime(800, now + 0.85); ef.Q.value = 5;
+      eg.gain.setValueAtTime(0.03, now + 0.05); eg.gain.linearRampToValueAtTime(0.3, now + 0.2); eg.gain.linearRampToValueAtTime(0, now + 0.85);
+      en.connect(ef); ef.connect(eg); eg.connect(ctx.destination); en.start(now + 0.05); en.stop(now + 0.87);
+
+      // Digital CLUNK + zap
+      const ta = now + 1.08;
+      const zap = ctx.createOscillator(), zapg = ctx.createGain();
+      zap.type = 'square'; zap.frequency.setValueAtTime(600, ta); zap.frequency.exponentialRampToValueAtTime(60, ta + 0.08);
+      zapg.gain.setValueAtTime(0.8, ta); zapg.gain.exponentialRampToValueAtTime(0.001, ta + 0.1);
+      zap.connect(zapg); zapg.connect(ctx.destination); zap.start(ta); zap.stop(ta + 0.12);
+
+      const blip = ctx.createOscillator(), blipg = ctx.createGain();
+      blip.frequency.value = 3200; blip.type = 'sine';
+      blipg.gain.setValueAtTime(0.18, ta); blipg.gain.exponentialRampToValueAtTime(0.001, ta + 0.18);
+      blip.connect(blipg); blipg.connect(ctx.destination); blip.start(ta); blip.stop(ta + 0.2);
+    }
+
+    const soundFns = [playSound1, playSound2, playSound3, playSound4, playSound5];
 
     function flip() {
       if (flipping) return;
@@ -330,31 +431,45 @@
       resultEl.innerHTML = '';
 
       const isHeads = Math.random() < 0.5;
-      playCoinSound();
+      const soundIdx = Math.floor(Math.random() * 5);
 
-      // ── Phase 1 setup: start small ──
+      // Play selected sound
+      try {
+        const ctx = getCtx();
+        soundFns[soundIdx](ctx, ctx.currentTime);
+      } catch(e) {}
+
+      // Show sound badge
+      const sd = SOUNDS[soundIdx];
+      soundNum.textContent = soundIdx + 1;
+      soundLabel.textContent = sd.label;
+      soundBadge.className = 'sound-badge ' + sd.cls;
+      soundBadge.style.display = 'flex';
+      // Force re-animation
+      soundBadge.style.animation = 'none';
+      void soundBadge.offsetHeight;
+      soundBadge.style.animation = '';
+
+      // Phase 1: small → large, fly off top
       coinMover.style.transition = 'none';
       coinMover.style.transform = 'translateY(0) scale(0.32)';
       coin.style.transition = 'none';
       coin.style.transform = 'rotateY(0deg)';
-      void coinMover.offsetHeight; // force reflow
+      void coinMover.offsetHeight;
 
-      // ── Phase 1: fly up + grow (0.55s, ease-in) ──
-      const PHASE1_DUR = 550;
-      const PHASE1_SPIN = 1440; // 4 rotations during launch
-      coinMover.style.transition = `transform ${PHASE1_DUR}ms cubic-bezier(0.4, 0, 1, 1)`;
+      const P1 = 550, SPIN1 = 1440;
+      coinMover.style.transition = `transform ${P1}ms cubic-bezier(0.4, 0, 1, 1)`;
       coinMover.style.transform = 'translateY(-130vh) scale(2.2)';
-      coin.style.transition = `transform ${PHASE1_DUR}ms linear`;
-      coin.style.transform = `rotateY(${PHASE1_SPIN}deg)`;
+      coin.style.transition = `transform ${P1}ms linear`;
+      coin.style.transform = `rotateY(${SPIN1}deg)`;
 
-      // ── Phase 2: land (0.52s, overshoot bounce easing) ──
+      // Phase 2: land with bounce
       setTimeout(() => {
-        const PHASE2_DUR = 520;
-        // 3 more rotations after phase 1, land on correct face
-        const finalDeg = PHASE1_SPIN + 1080 + (isHeads ? 0 : 180);
-        coinMover.style.transition = `transform ${PHASE2_DUR}ms cubic-bezier(0.16, 1.4, 0.5, 1)`;
+        const P2 = 520;
+        const finalDeg = SPIN1 + 1080 + (isHeads ? 0 : 180);
+        coinMover.style.transition = `transform ${P2}ms cubic-bezier(0.16, 1.4, 0.5, 1)`;
         coinMover.style.transform = 'translateY(0) scale(1)';
-        coin.style.transition = `transform ${PHASE2_DUR}ms linear`;
+        coin.style.transition = `transform ${P2}ms linear`;
         coin.style.transform = `rotateY(${finalDeg}deg)`;
 
         setTimeout(() => {
@@ -370,9 +485,8 @@
           flipping = false;
           flipBtn.disabled = false;
           flipBtn.textContent = 'Flip Again';
-        }, PHASE2_DUR + 30);
-
-      }, PHASE1_DUR + 40);
+        }, P2 + 30);
+      }, P1 + 40);
     }
 
     flipBtn.addEventListener('click', flip);
