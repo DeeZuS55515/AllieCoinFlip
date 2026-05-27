@@ -36,7 +36,7 @@
 
     .subtitle {
       font-size: 0.9rem;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.4);
       margin-bottom: 48px;
       text-align: center;
       letter-spacing: 0.06em;
@@ -44,21 +44,31 @@
 
     /* ── Coin ── */
     .coin-wrap {
-      perspective: 700px;
+      /* perspective container — overflow visible so coin can fly off screen */
+      perspective: 600px;
       width: 220px;
       height: 220px;
       cursor: pointer;
       margin-bottom: 36px;
       flex-shrink: 0;
+      overflow: visible;
     }
 
+    /* mover: handles translateY + scale */
+    #coinMover {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform: translateY(0) scale(0.32);
+    }
+
+    /* coin: handles rotateY only */
     .coin {
       width: 100%;
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.75s cubic-bezier(0.33, 0, 0.2, 1);
-      filter: drop-shadow(0 12px 28px rgba(0,0,0,0.55));
+      filter: drop-shadow(0 12px 28px rgba(0,0,0,0.6));
     }
 
     .coin-face, .coin-back {
@@ -74,13 +84,11 @@
       user-select: none;
     }
 
-    /* Heads — gold */
     .coin-face {
       background: radial-gradient(circle at 38% 32%, #fff5c0, #e8b800 42%, #a07000 80%, #6b4a00);
       box-shadow: inset 0 4px 10px rgba(255,255,200,0.6), inset 0 -5px 12px rgba(0,0,0,0.4);
     }
 
-    /* Tails — silver */
     .coin-back {
       background: radial-gradient(circle at 62% 32%, #ffffff, #d0d0d0 42%, #808080 80%, #404040);
       box-shadow: inset 0 4px 10px rgba(255,255,255,0.65), inset 0 -5px 12px rgba(0,0,0,0.35);
@@ -117,11 +125,11 @@
       font-size: 2.4rem;
       font-weight: 900;
       letter-spacing: 0.04em;
-      animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
 
     .result-heads { color: #e8b800; }
-    .result-tails { color: #c0c0c0; }
+    .result-tails { color: #b8b8b8; }
 
     /* ── Button ── */
     .flip-btn {
@@ -145,14 +153,8 @@
       box-shadow: 0 6px 24px rgba(232,184,0,0.55);
     }
 
-    .flip-btn:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    .flip-btn:disabled {
-      opacity: 0.55;
-      cursor: default;
-    }
+    .flip-btn:active:not(:disabled) { transform: translateY(0); }
+    .flip-btn:disabled { opacity: 0.5; cursor: default; }
 
     /* ── Tally ── */
     .tally {
@@ -163,13 +165,11 @@
       color: rgba(255,255,255,0.4);
     }
 
-    .tally span { font-weight: 700; font-size: 1.1rem; }
-    .tally .heads-count { color: #e8b800; }
-    .tally .tails-count { color: #c0c0c0; }
+    .tally .heads-count { color: #e8b800; font-weight: 700; font-size: 1.1rem; }
+    .tally .tails-count { color: #b8b8b8; font-weight: 700; font-size: 1.1rem; }
 
-    /* ── Animation ── */
     @keyframes pop {
-      from { transform: scale(0.5); opacity: 0; }
+      from { transform: scale(0.4); opacity: 0; }
       to   { transform: scale(1);   opacity: 1; }
     }
   </style>
@@ -180,14 +180,16 @@
   <div class="subtitle">tap the coin — or the button</div>
 
   <div class="coin-wrap" id="coinWrap">
-    <div class="coin" id="coin">
-      <div class="coin-face">
-        <span class="coin-symbol">❤</span>
-        <span class="coin-label">Heads</span>
-      </div>
-      <div class="coin-back">
-        <span class="coin-symbol">★</span>
-        <span class="coin-label">Tails</span>
+    <div id="coinMover">
+      <div class="coin" id="coin">
+        <div class="coin-face">
+          <span class="coin-symbol">❤</span>
+          <span class="coin-label">Heads</span>
+        </div>
+        <div class="coin-back">
+          <span class="coin-symbol">★</span>
+          <span class="coin-label">Tails</span>
+        </div>
       </div>
     </div>
   </div>
@@ -202,12 +204,14 @@
   </div>
 
   <script>
-    const coin     = document.getElementById('coin');
-    const flipBtn  = document.getElementById('flipBtn');
-    const resultEl = document.getElementById('result');
-    const tally    = document.getElementById('tally');
-    const headsEl  = document.getElementById('headsCount');
-    const tailsEl  = document.getElementById('tailsCount');
+    const coinWrap  = document.getElementById('coinWrap');
+    const coinMover = document.getElementById('coinMover');
+    const coin      = document.getElementById('coin');
+    const flipBtn   = document.getElementById('flipBtn');
+    const resultEl  = document.getElementById('result');
+    const tally     = document.getElementById('tally');
+    const headsEl   = document.getElementById('headsCount');
+    const tailsEl   = document.getElementById('tailsCount');
 
     let flipping = false;
     let headsCount = 0, tailsCount = 0;
@@ -223,52 +227,99 @@
         const ctx = getCtx();
         const now = ctx.currentTime;
 
-        // Spinning whoosh
-        const osc = ctx.createOscillator();
-        const oscGain = ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(160, now);
-        osc.frequency.linearRampToValueAtTime(900, now + 0.35);
-        osc.frequency.linearRampToValueAtTime(160, now + 0.65);
-        oscGain.gain.setValueAtTime(0.06, now);
-        oscGain.gain.linearRampToValueAtTime(0.1, now + 0.3);
-        oscGain.gain.linearRampToValueAtTime(0, now + 0.65);
-        osc.connect(oscGain);
-        oscGain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.65);
+        // ── Launch zing (sharp attack upward sweep) ──
+        const zing = ctx.createOscillator();
+        const zingGain = ctx.createGain();
+        zing.type = 'triangle';
+        zing.frequency.setValueAtTime(180, now);
+        zing.frequency.exponentialRampToValueAtTime(1800, now + 0.12);
+        zingGain.gain.setValueAtTime(0.4, now);
+        zingGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+        zing.connect(zingGain);
+        zingGain.connect(ctx.destination);
+        zing.start(now);
+        zing.stop(now + 0.15);
 
-        // Metallic clink on landing
-        const clinkAt = now + 0.7;
-        const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.25), ctx.sampleRate);
-        const d = buf.getChannelData(0);
-        for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-        const noise = ctx.createBufferSource();
-        noise.buffer = buf;
-        const bpf = ctx.createBiquadFilter();
-        bpf.type = 'bandpass';
-        bpf.frequency.value = 4200;
-        bpf.Q.value = 12;
-        const clinkGain = ctx.createGain();
-        clinkGain.gain.setValueAtTime(0.55, clinkAt);
-        clinkGain.gain.exponentialRampToValueAtTime(0.001, clinkAt + 0.22);
-        noise.connect(bpf);
-        bpf.connect(clinkGain);
-        clinkGain.connect(ctx.destination);
-        noise.start(clinkAt);
-        noise.stop(clinkAt + 0.25);
+        // ── Air whoosh (noise through sweeping bandpass) ──
+        const whooshDur = 0.85;
+        const wBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * whooshDur), ctx.sampleRate);
+        const wd = wBuf.getChannelData(0);
+        for (let i = 0; i < wd.length; i++) wd[i] = Math.random() * 2 - 1;
+        const whoosh = ctx.createBufferSource();
+        whoosh.buffer = wBuf;
+        const wbpf = ctx.createBiquadFilter();
+        wbpf.type = 'bandpass';
+        wbpf.frequency.setValueAtTime(1200, now);
+        wbpf.frequency.linearRampToValueAtTime(300, now + whooshDur);
+        wbpf.Q.value = 2.5;
+        const wGain = ctx.createGain();
+        wGain.gain.setValueAtTime(0.05, now);
+        wGain.gain.linearRampToValueAtTime(0.35, now + 0.25);
+        wGain.gain.linearRampToValueAtTime(0, now + whooshDur);
+        whoosh.connect(wbpf);
+        wbpf.connect(wGain);
+        wGain.connect(ctx.destination);
+        whoosh.start(now);
+        whoosh.stop(now + whooshDur);
 
-        // Ring decay
+        // ── Metallic spin (sawtooth + tremolo for flipping wobble) ──
+        const spinOsc = ctx.createOscillator();
+        const spinGain = ctx.createGain();
+        spinOsc.type = 'sawtooth';
+        spinOsc.frequency.setValueAtTime(280, now + 0.05);
+        spinOsc.frequency.linearRampToValueAtTime(520, now + 0.45);
+        spinOsc.frequency.linearRampToValueAtTime(280, now + 0.9);
+        // Tremolo — makes the "rrrr" spin sound
+        const lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+        lfo.frequency.setValueAtTime(28, now);   // fast spin
+        lfo.frequency.linearRampToValueAtTime(6, now + 0.9); // slows as it falls
+        lfoGain.gain.value = 0.6;
+        lfo.connect(lfoGain);
+        lfoGain.connect(spinGain.gain);
+        lfo.start(now + 0.05);
+        lfo.stop(now + 1.1);
+        spinGain.gain.setValueAtTime(0, now);
+        spinGain.gain.linearRampToValueAtTime(0.18, now + 0.12);
+        spinGain.gain.linearRampToValueAtTime(0.1, now + 0.8);
+        spinGain.gain.linearRampToValueAtTime(0, now + 0.95);
+        spinOsc.connect(spinGain);
+        spinGain.connect(ctx.destination);
+        spinOsc.start(now + 0.05);
+        spinOsc.stop(now + 1.0);
+
+        // ── Heavy metallic CLANK on landing ──
+        const clankAt = now + 1.08;
+        const cBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.5), ctx.sampleRate);
+        const cd = cBuf.getChannelData(0);
+        for (let i = 0; i < cd.length; i++) cd[i] = Math.random() * 2 - 1;
+        const clank = ctx.createBufferSource();
+        clank.buffer = cBuf;
+        const cbpf = ctx.createBiquadFilter();
+        cbpf.type = 'bandpass';
+        cbpf.frequency.value = 3800;
+        cbpf.Q.value = 10;
+        const cGain = ctx.createGain();
+        cGain.gain.setValueAtTime(1.0, clankAt);
+        cGain.gain.exponentialRampToValueAtTime(0.001, clankAt + 0.32);
+        clank.connect(cbpf);
+        cbpf.connect(cGain);
+        cGain.connect(ctx.destination);
+        clank.start(clankAt);
+        clank.stop(clankAt + 0.5);
+
+        // ── Ring resonance after clank ──
         const ring = ctx.createOscillator();
-        const ringGain = ctx.createGain();
+        const rGain = ctx.createGain();
+        ring.frequency.value = 2600;
         ring.type = 'sine';
-        ring.frequency.value = 3800;
-        ringGain.gain.setValueAtTime(0.08, clinkAt);
-        ringGain.gain.exponentialRampToValueAtTime(0.001, clinkAt + 0.35);
-        ring.connect(ringGain);
-        ringGain.connect(ctx.destination);
-        ring.start(clinkAt);
-        ring.stop(clinkAt + 0.35);
+        rGain.gain.setValueAtTime(0.12, clankAt);
+        rGain.gain.exponentialRampToValueAtTime(0.001, clankAt + 0.55);
+        ring.connect(rGain);
+        rGain.connect(ctx.destination);
+        ring.start(clankAt);
+        ring.stop(clankAt + 0.6);
+
       } catch (e) {}
     }
 
@@ -281,34 +332,51 @@
       const isHeads = Math.random() < 0.5;
       playCoinSound();
 
-      // Reset to 0 then spin
+      // ── Phase 1 setup: start small ──
+      coinMover.style.transition = 'none';
+      coinMover.style.transform = 'translateY(0) scale(0.32)';
       coin.style.transition = 'none';
       coin.style.transform = 'rotateY(0deg)';
-      void coin.offsetHeight;
+      void coinMover.offsetHeight; // force reflow
 
-      const spins = 6 + Math.floor(Math.random() * 3);
-      const finalDeg = spins * 360 + (isHeads ? 0 : 180);
-      coin.style.transition = 'transform 0.75s cubic-bezier(0.33, 0, 0.2, 1)';
-      coin.style.transform = `rotateY(${finalDeg}deg)`;
+      // ── Phase 1: fly up + grow (0.55s, ease-in) ──
+      const PHASE1_DUR = 550;
+      const PHASE1_SPIN = 1440; // 4 rotations during launch
+      coinMover.style.transition = `transform ${PHASE1_DUR}ms cubic-bezier(0.4, 0, 1, 1)`;
+      coinMover.style.transform = 'translateY(-130vh) scale(2.2)';
+      coin.style.transition = `transform ${PHASE1_DUR}ms linear`;
+      coin.style.transform = `rotateY(${PHASE1_SPIN}deg)`;
 
+      // ── Phase 2: land (0.52s, overshoot bounce easing) ──
       setTimeout(() => {
-        const label = isHeads ? 'Heads!' : 'Tails!';
-        const cls   = isHeads ? 'result-heads' : 'result-tails';
-        resultEl.innerHTML = `<div class="result-text ${cls}">${label}</div>`;
+        const PHASE2_DUR = 520;
+        // 3 more rotations after phase 1, land on correct face
+        const finalDeg = PHASE1_SPIN + 1080 + (isHeads ? 0 : 180);
+        coinMover.style.transition = `transform ${PHASE2_DUR}ms cubic-bezier(0.16, 1.4, 0.5, 1)`;
+        coinMover.style.transform = 'translateY(0) scale(1)';
+        coin.style.transition = `transform ${PHASE2_DUR}ms linear`;
+        coin.style.transform = `rotateY(${finalDeg}deg)`;
 
-        if (isHeads) headsCount++; else tailsCount++;
-        headsEl.textContent = headsCount;
-        tailsEl.textContent = tailsCount;
-        tally.style.display = 'flex';
+        setTimeout(() => {
+          const label = isHeads ? 'Heads!' : 'Tails!';
+          const cls   = isHeads ? 'result-heads' : 'result-tails';
+          resultEl.innerHTML = `<div class="result-text ${cls}">${label}</div>`;
 
-        flipping = false;
-        flipBtn.disabled = false;
-        flipBtn.textContent = 'Flip Again';
-      }, 800);
+          if (isHeads) headsCount++; else tailsCount++;
+          headsEl.textContent = headsCount;
+          tailsEl.textContent = tailsCount;
+          tally.style.display = 'flex';
+
+          flipping = false;
+          flipBtn.disabled = false;
+          flipBtn.textContent = 'Flip Again';
+        }, PHASE2_DUR + 30);
+
+      }, PHASE1_DUR + 40);
     }
 
     flipBtn.addEventListener('click', flip);
-    document.getElementById('coinWrap').addEventListener('click', flip);
+    coinWrap.addEventListener('click', flip);
   </script>
 
 </body>
