@@ -343,8 +343,14 @@
   });
   historyClear.addEventListener('click', () => {
     flipHistory.length = 0;
+    headsCount = 0; tailsCount = 0;
+    headsEl.textContent = '0'; tailsEl.textContent = '0';
     histItems.innerHTML = '';
+    statsPct.textContent = '—';
     historyEl.classList.remove('visible');
+    tallyEl.style.display = 'none';
+    resultEl.innerHTML = '';
+    flipBtn.textContent = 'Flip';
   });
 
   // ── Audio ──
