@@ -1,4 +1,4 @@
-const CACHE = 'allie-coin-flip-v2';
+const CACHE = 'allie-coin-flip-v3';
 const ASSETS = [
   '/',
   '/index.html',
