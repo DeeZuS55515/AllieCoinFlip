@@ -355,6 +355,7 @@
     tallyEl.style.display = 'flex';
     const hp = Math.round(headsCount / (headsCount + tailsCount) * 100);
     statsPct.textContent = `❤ ${hp}% / 🕉 ${100 - hp}%`;
+    statsTotal.textContent = (headsCount + tailsCount).toLocaleString();
   }
 
   function applySound() {
