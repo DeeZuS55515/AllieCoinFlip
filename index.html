@@ -477,6 +477,8 @@
     if (isHeads) headsCount++; else tailsCount++;
     headsEl.textContent = headsCount;
     tailsEl.textContent = tailsCount;
+    localStorage.setItem('headsCount', headsCount);
+    localStorage.setItem('tailsCount', tailsCount);
     tallyEl.style.display = 'flex';
     addToHistory(isHeads);
     flipping = false;
