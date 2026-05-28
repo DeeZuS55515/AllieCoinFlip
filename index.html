@@ -352,9 +352,17 @@
     phoneToggle.className = 'toggle-btn ' + (phoneView ? 'on' : 'off');
   }
 
-  menuBtn.addEventListener('click', () => {
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     const open = settingsEl.classList.toggle('open');
     menuBtn.classList.toggle('open', open);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!settingsEl.contains(e.target) && e.target !== menuBtn) {
+      settingsEl.classList.remove('open');
+      menuBtn.classList.remove('open');
+    }
   });
 
   soundToggle.addEventListener('click', () => {
