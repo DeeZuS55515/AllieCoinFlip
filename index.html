@@ -493,6 +493,22 @@
   flipBtn.addEventListener('click', flip);
   coinWrap.addEventListener('click', flip);
 
+  // Build 3D coin edge cylinder
+  (function() {
+    const R = 105, N = 60;
+    const segW = Math.ceil(2 * R * Math.sin(Math.PI / N)) + 1;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < N; i++) {
+      const s = document.createElement('div');
+      s.className = 'edge-seg';
+      s.style.width = segW + 'px';
+      s.style.marginLeft = (-segW / 2) + 'px';
+      s.style.transform = `rotateY(${i * (360 / N)}deg) translateZ(${R}px)`;
+      frag.appendChild(s);
+    }
+    document.getElementById('coinEdge').appendChild(frag);
+  })();
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js');
   }
