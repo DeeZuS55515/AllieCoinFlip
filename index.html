@@ -90,15 +90,15 @@
 
     /* ── Settings pop-out ── */
     #settings {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
+      position: fixed;
+      top: 56px;
+      right: 16px;
       width: 230px;
       background: #0f2040;
       border: 1px solid rgba(255,255,255,0.15);
       border-radius: 14px;
       padding: 14px 18px;
-      z-index: 1002;
+      z-index: 9999;
       transform-origin: top right;
       transform: scale(0.82) translateY(-10px);
       opacity: 0;
