@@ -522,24 +522,7 @@
       coin.style.transition = `transform ${P2}ms linear`;
       coin.style.transform = `rotateY(${finalDeg}deg)`;
 
-      setTimeout(() => {
-        coinFace.style.background = isHeads
-          ? "url('sounds/coin front.jpg') center/cover no-repeat"
-          : "url('sounds/coin back.jpg') center/cover no-repeat";
-        const cls = isHeads ? 'result-heads' : 'result-tails';
-        resultEl.innerHTML = `<div class="result-text ${cls}">${isHeads ? 'Heads!' : 'Tails!'}</div>`;
-
-        if (isHeads) headsCount++; else tailsCount++;
-        headsEl.textContent = headsCount;
-        tailsEl.textContent = tailsCount;
-        tallyEl.style.display = 'flex';
-
-        addToHistory(isHeads);
-
-        flipping = false;
-        flipBtn.disabled = false;
-        flipBtn.textContent = 'Flip Again';
-      }, P2 + 30);
+      setTimeout(() => settle(isHeads), P2 + 30);
     }, P1 + 40);
   }
 
