@@ -357,6 +357,10 @@
     phoneToggle.textContent = phoneView ? 'On' : 'Off';
     phoneToggle.className = 'toggle-btn ' + (phoneView ? 'on' : 'off');
   }
+  function applyInstant() {
+    instantToggle.textContent = instantMode ? 'On' : 'Off';
+    instantToggle.className = 'toggle-btn ' + (instantMode ? 'on' : 'off');
+  }
 
   menuBtn.addEventListener('click', (e) => {
     e.stopPropagation();
