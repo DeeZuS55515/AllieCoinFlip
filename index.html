@@ -140,7 +140,7 @@
 
     /* ── Coin ── */
     .coin-wrap {
-      perspective: 600px;
+      perspective: 900px;
       width: 210px; height: 210px;
       cursor: pointer;
       margin-bottom: 18px;
@@ -153,25 +153,36 @@
     #coinMover {
       width: 100%; height: 100%;
       transform: translateY(0) scale(1);
+      transform-style: preserve-3d;
     }
 
     .coin {
       width: 100%; height: 100%;
       position: relative;
+      transform-style: preserve-3d;
     }
 
     .coin-face {
       position: absolute; inset: 0;
       border-radius: 50%;
       background: url('sounds/coin front.jpg') center/cover no-repeat;
-      box-shadow:
-        0 0 0 7px #c8a200,
-        0 0 0 9px #7a5800,
-        0 0 0 11px #e0b800,
-        0 0 0 13px #5a4000,
-        0 0 0 15px rgba(200,160,0,0.35),
-        0 14px 44px rgba(0,0,0,0.75);
+      transform: translateZ(9px);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7);
       user-select: none;
+    }
+
+    .edge-seg {
+      position: absolute;
+      left: 50%; top: 50%;
+      height: 18px;
+      margin-top: -9px;
+      background: linear-gradient(to bottom,
+        #f0d060 0%, #c8a200 18%, #7a5800 35%,
+        #c8a200 50%, #7a5800 65%, #c8a200 82%, #f0d060 100%);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     /* ── Result ── */
