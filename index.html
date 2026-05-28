@@ -335,16 +335,18 @@
   const historyEl   = document.getElementById('historyEl');
   const histItems   = document.getElementById('historyItems');
   const historyClear= document.getElementById('historyClear');
-  const statsPct    = document.getElementById('statsPct');
+  const statsPct     = document.getElementById('statsPct');
+  const instantToggle= document.getElementById('instantToggle');
 
   let flipping = false, headsCount = 0, tailsCount = 0;
   let audioCtx = null;
   const flipHistory = [];
 
-  let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
-  let phoneView    = localStorage.getItem('phoneView')    === 'true';
+  let soundEnabled  = localStorage.getItem('soundEnabled')  !== 'false';
+  let phoneView     = localStorage.getItem('phoneView')     === 'true';
+  let instantMode   = localStorage.getItem('instantMode')   === 'true';
 
-  applySound(); applyPhoneView();
+  applySound(); applyPhoneView(); applyInstant();
 
   function applySound() {
     soundToggle.textContent = soundEnabled ? 'On' : 'Off';
