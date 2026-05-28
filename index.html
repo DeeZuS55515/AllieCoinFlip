@@ -463,6 +463,22 @@
     statsPct.textContent = `❤ ${hp}% / 🕉 ${100 - hp}%`;
   }
 
+  function settle(isHeads) {
+    coinFace.style.background = isHeads
+      ? "url('sounds/coin front.jpg') center/cover no-repeat"
+      : "url('sounds/coin back.jpg') center/cover no-repeat";
+    const cls = isHeads ? 'result-heads' : 'result-tails';
+    resultEl.innerHTML = `<div class="result-text ${cls}">${isHeads ? 'Heads!' : 'Tails!'}</div>`;
+    if (isHeads) headsCount++; else tailsCount++;
+    headsEl.textContent = headsCount;
+    tailsEl.textContent = tailsCount;
+    tallyEl.style.display = 'flex';
+    addToHistory(isHeads);
+    flipping = false;
+    flipBtn.disabled = false;
+    flipBtn.textContent = 'Flip Again';
+  }
+
   function flip() {
     if (flipping) return;
     flipping = true;
@@ -472,6 +488,15 @@
     const buf = new Uint32Array(1);
     crypto.getRandomValues(buf);
     const isHeads = buf[0] % 2 === 0;
+
+    if (instantMode) {
+      coin.style.transition = 'none';
+      coin.style.transform = 'rotateY(0deg)';
+      coinMover.style.transition = 'none';
+      coinMover.style.transform = 'translateY(0) scale(1)';
+      settle(isHeads);
+      return;
+    }
 
     if (soundEnabled) {
       try { const ctx = getCtx(); playWind(ctx, ctx.currentTime); } catch(e) {}
