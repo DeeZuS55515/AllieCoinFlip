@@ -399,11 +399,13 @@
 
   function addToHistory(isHeads) {
     flipHistory.unshift(isHeads);
-    if (flipHistory.length > 30) flipHistory.pop();
     histItems.innerHTML = flipHistory.map(h =>
-      `<span class="h-item ${h ? 'h-heads' : 'h-tails'}">${h ? '❤' : '★'}</span>`
+      `<span class="h-item ${h ? 'h-heads' : 'h-tails'}">${h ? '❤' : '🕉'}</span>`
     ).join('');
     historyEl.classList.add('visible');
+    const total = headsCount + tailsCount;
+    const hp = Math.round(headsCount / total * 100);
+    statsPct.textContent = `❤ ${hp}% / 🕉 ${100 - hp}%`;
   }
 
   function flip() {
