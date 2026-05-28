@@ -1,0 +1,9 @@
+{
+  "name": "Allie Coin Flip",
+  "short_name": "Coin Flip",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#e8b800",
+  "description": "A truly random coin flip app"
+}
