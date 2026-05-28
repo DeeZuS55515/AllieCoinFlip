@@ -398,6 +398,8 @@
   historyClear.addEventListener('click', () => {
     flipHistory.length = 0;
     headsCount = 0; tailsCount = 0;
+    localStorage.removeItem('headsCount');
+    localStorage.removeItem('tailsCount');
     headsEl.textContent = '0'; tailsEl.textContent = '0';
     histItems.innerHTML = '';
     statsPct.textContent = '—';
