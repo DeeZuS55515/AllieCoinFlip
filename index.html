@@ -154,26 +154,12 @@
       transform-style: preserve-3d;
     }
 
-    .coin-face, .coin-back {
+    .coin-face {
       position: absolute; inset: 0;
       border-radius: 50%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      user-select: none;
-      gap: 4px;
-    }
-
-    .coin-face {
       background: url('sounds/coin front.jpg') center/cover no-repeat;
       box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    }
-
-    .coin-back {
-      background: url('sounds/coin back.jpg') center/cover no-repeat;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-      transform: rotateY(180deg);
+      user-select: none;
     }
 
     /* ── Result ── */
