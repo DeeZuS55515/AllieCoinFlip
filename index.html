@@ -429,7 +429,9 @@
     flipBtn.disabled = true;
     resultEl.innerHTML = '';
 
-    const isHeads = Math.random() < 0.5;
+    const buf = new Uint32Array(1);
+    crypto.getRandomValues(buf);
+    const isHeads = buf[0] % 2 === 0;
 
     if (soundEnabled) {
       try { const ctx = getCtx(); playWind(ctx, ctx.currentTime); } catch(e) {}
