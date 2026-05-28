@@ -385,6 +385,11 @@
     localStorage.setItem('phoneView', phoneView);
     applyPhoneView();
   });
+  instantToggle.addEventListener('click', () => {
+    instantMode = !instantMode;
+    localStorage.setItem('instantMode', instantMode);
+    applyInstant();
+  });
   historyClear.addEventListener('click', () => {
     flipHistory.length = 0;
     headsCount = 0; tailsCount = 0;
