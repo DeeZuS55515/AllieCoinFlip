@@ -333,7 +333,9 @@
   const statsPct     = document.getElementById('statsPct');
   const instantToggle= document.getElementById('instantToggle');
 
-  let flipping = false, headsCount = 0, tailsCount = 0;
+  let flipping = false;
+  let headsCount = parseInt(localStorage.getItem('headsCount') || '0', 10);
+  let tailsCount = parseInt(localStorage.getItem('tailsCount') || '0', 10);
   let audioCtx = null;
   const flipHistory = [];
 
@@ -342,6 +344,14 @@
   let instantMode   = localStorage.getItem('instantMode')   === 'true';
 
   applySound(); applyPhoneView(); applyInstant();
+
+  if (headsCount + tailsCount > 0) {
+    headsEl.textContent = headsCount;
+    tailsEl.textContent = tailsCount;
+    tallyEl.style.display = 'flex';
+    const hp = Math.round(headsCount / (headsCount + tailsCount) * 100);
+    statsPct.textContent = `❤ ${hp}% / 🕉 ${100 - hp}%`;
+  }
 
   function applySound() {
     soundToggle.textContent = soundEnabled ? 'On' : 'Off';
