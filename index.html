@@ -474,6 +474,7 @@
     const total = headsCount + tailsCount;
     const hp = Math.round(headsCount / total * 100);
     statsPct.textContent = `❤ ${hp}% / 🕉 ${100 - hp}%`;
+    statsTotal.textContent = total.toLocaleString();
   }
 
   function settle(isHeads) {
