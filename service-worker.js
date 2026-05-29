@@ -1,4 +1,4 @@
-const CACHE = 'allie-coin-flip-v3';
+const CACHE = 'allie-coin-flip-v4';
 const STATIC = [
   '/sounds/coin front.jpg',
   '/sounds/coin back.jpg',
