@@ -407,8 +407,25 @@
   let soundEnabled  = localStorage.getItem('soundEnabled')  !== 'false';
   let phoneView     = localStorage.getItem('phoneView')     === 'true';
   let instantMode   = localStorage.getItem('instantMode')   === 'true';
+  let currentTheme  = localStorage.getItem('theme') || '';
 
-  applySound(); applyPhoneView(); applyInstant();
+  applySound(); applyPhoneView(); applyInstant(); applyTheme(currentTheme, false);
+
+  function applyTheme(theme, save = true) {
+    currentTheme = theme;
+    document.body.className = document.body.className
+      .replace(/\btheme-\S+/g, '').trim();
+    if (theme) document.body.classList.add('theme-' + theme);
+    themeSwatches.querySelectorAll('.swatch').forEach(s => {
+      s.classList.toggle('active', s.dataset.theme === theme);
+    });
+    if (save) localStorage.setItem('theme', theme);
+  }
+
+  themeSwatches.addEventListener('click', e => {
+    const swatch = e.target.closest('.swatch');
+    if (swatch) applyTheme(swatch.dataset.theme);
+  });
 
   if (headsCount + tailsCount > 0) {
     headsEl.textContent = headsCount;
